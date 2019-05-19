@@ -114,8 +114,18 @@ class InstaBot:
 
         followers_list = followers_list.find_elements_by_css_selector('li')[0:nums]
 
-        followers = [user.find_elements_by_css_selector('a')[-1].text
-                     for user in followers_list]
+        # followers = [user.find_elements_by_css_selector('a')[-1].text
+        #              for user in followers_list]
+
+        followers = []
+
+        for follower in followers_list:
+            try:
+                user = follower.find_elements_by_css_selector('a')[-1].text
+            except StaleElementReferenceException:
+                continue
+
+            followers.append(user)
 
         return followers
 
